@@ -13,14 +13,13 @@ import { FinanceModule } from './finance/finance.module';
 import { AcademicsModule } from './academics/academics.module';
 import { PoliciesModule } from './policies/policies.module';
 import { ReportsModule } from './reports/reports.module';
+import { StorageModule } from './storage/storage.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: '.env'
-    }),
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     PrismaModule,
+    StorageModule,
     AuthModule,
     UsersModule,
     ApplicantsModule,
@@ -33,7 +32,6 @@ import { ReportsModule } from './reports/reports.module';
     PoliciesModule,
     ReportsModule
   ],
-  controllers: [HealthController],
-  providers: []
+  controllers: [HealthController]
 })
 export class AppModule {}
