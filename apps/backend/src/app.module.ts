@@ -8,6 +8,7 @@ import { ApplicantsModule } from './applicants/applicants.module';
 import { ApplicationsModule } from './applications/applications.module';
 import { DocumentsModule } from './documents/documents.module';
 import { AdmissionsModule } from './admissions/admissions.module';
+import { StudentRegistrationModule } from './student-registration/student-registration.module';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { AdmissionsModule } from './admissions/admissions.module';
     ApplicantsModule,
     ApplicationsModule,
     DocumentsModule,
-    AdmissionsModule
+    AdmissionsModule,
+    StudentRegistrationModule
   ],
   controllers: [HealthController],
   providers: []
