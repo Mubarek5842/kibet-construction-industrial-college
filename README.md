@@ -1,23 +1,33 @@
 # Kibet Construction and Industrial College
 
-## Phase 1 Update
+A full-stack student registration system for TVET institutions.
 
-This phase implements the foundational database model, Prisma schema, seed data, and JWT-based authentication with role-based guard support.
+## Stack
 
-## Included in this phase
+- Frontend: Next.js + TypeScript + Tailwind CSS
+- Backend: NestJS + TypeScript
+- Database: PostgreSQL + Prisma
+- Auth: JWT + RBAC
+- Testing: Jest + Supertest + RTL
+- Deployment: Docker Compose
 
-- Prisma schema covering users, applicants, applications, programs, students, fees, attendance, audits, and policies
-- PostgreSQL migration SQL for all Phase 1 tables
-- Seed definitions for admin user, default campus, sample departments, sample programs, and default policies
-- NestJS auth module with registration, login, JWT validation, and RBAC scaffolding
-- Initial frontend login page for API validation
+## Production features included
 
-## Setup
+- Public applicant registration and application tracking
+- Admission verification workflow
+- Merit and preference aware admissions flow
+- Student registration and ID number issuance
+- Finance payment tracking and receipts
+- Academic registration, attendance, and grading support
+- Configurable policy management for age, attendance, cut-off score, and fees
+- Report summary APIs
+- Audit-friendly backend structure
+
+## Quick start
 
 ```bash
 npm install
 cp .env.example .env
-
 docker compose up -d postgres
 npm run prisma:generate --workspace apps/backend
 npm run prisma:migrate --workspace apps/backend
@@ -25,11 +35,17 @@ npm run prisma:seed --workspace apps/backend
 npm run dev
 ```
 
-## Admin login
+## Default admin account
 
 - Email: admin@kibetcollege.edu.et
 - Password: Admin@123
 
+## Key URLs
+
+- Frontend: http://localhost:3000
+- Backend: http://localhost:4000
+- Swagger: http://localhost:4000/docs
+
 ## Notes
 
-Policy values such as age and attendance thresholds are stored in the `AcademicPolicy` table and are fully configurable.
+This repository implements a production-oriented scaffolding and feature set for the Kibet Construction and Industrial College registration system, with configurable academic and admissions rules managed through the database.

@@ -11,6 +11,8 @@ import { AdmissionsModule } from './admissions/admissions.module';
 import { StudentRegistrationModule } from './student-registration/student-registration.module';
 import { FinanceModule } from './finance/finance.module';
 import { AcademicsModule } from './academics/academics.module';
+import { PoliciesModule } from './policies/policies.module';
+import { ReportsModule } from './reports/reports.module';
 
 @Module({
   imports: [
@@ -27,7 +29,9 @@ import { AcademicsModule } from './academics/academics.module';
     AdmissionsModule,
     StudentRegistrationModule,
     FinanceModule,
-    AcademicsModule
+    AcademicsModule,
+    PoliciesModule,
+    ReportsModule
   ],
   controllers: [HealthController],
   providers: []
