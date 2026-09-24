@@ -1,34 +1,32 @@
-# Production hardening and deployment
+# Local startup
 
-## Role-based UI
-
-- `/dashboard` selects the role workspace from the authenticated user.
-- `/apply` is the applicant portal.
-- `/registrar` is the registrar workspace.
-- `/student-registration` handles admitted-student conversion.
-- `/finance-academics` is shared by finance and department users.
-- `/admin` provides policy administration and report links.
-
-## Secure production configuration
-
-1. Copy `.env.example` to `.env` and replace every secret.
-2. Do not expose PostgreSQL directly to the public internet.
-3. Put HTTPS/TLS and a reverse proxy in front of ports 3000 and 4000.
-4. Keep `UPLOAD_DIR` on persistent encrypted storage or replace `StorageService` with S3/MinIO.
-5. Run migrations in a controlled release step:
+For native development, use `DATABASE_URL=postgresql://postgres:postgres@localhost:5432/kibet_college?schema=public`. The `postgres` hostname is only available from containers.
 
 ```bash
-docker compose -f docker-compose.prod.yml up -d postgres
-docker compose -f docker-compose.prod.yml run --rm backend npx prisma migrate deploy
-# seed only in a controlled initial deployment
-# docker compose -f docker-compose.prod.yml run --rm backend npx prisma db seed
-docker compose -f docker-compose.prod.yml up -d backend frontend
+npm install
+cp .env.example .env
+# change DATABASE_URL to localhost when backend runs natively
+docker compose up -d postgres
+npm run prisma:generate --workspace apps/backend
+npm run prisma:migrate --workspace apps/backend
+npm run prisma:seed --workspace apps/backend
+npm run dev
 ```
 
-6. Back up PostgreSQL and the uploads volume regularly.
-7. Rotate JWT secrets and admin credentials before go-live.
-8. Restrict policy and report endpoints with role guards before exposing them to staff users.
+The API is served under `/api`; the frontend uses `NEXT_PUBLIC_API_URL` and no longer hardcodes unprefixed API paths.
 
-## File uploads
+# Production checklist
 
-Documents are uploaded as multipart form data to `POST /api/documents/upload` with fields `applicationId`, `type`, and `file`. Files are limited to 5 MB and receive generated non-colliding names. The upload volume is persisted by Docker.
+- [ ] Replace all JWT and database secrets; store them in a managed secret store.
+- [ ] Use HTTPS, a reverse proxy, secure DNS, and restrictive `CORS_ORIGINS`.
+- [ ] Run `npm audit`, dependency updates, and secret scanning in CI.
+- [ ] Run `prisma migrate deploy`, never `migrate dev`, in production.
+- [ ] Back up PostgreSQL and the uploads volume; test restoration.
+- [ ] Use S3/MinIO with private buckets and signed download URLs for sensitive documents.
+- [ ] Enforce MIME/type validation and antivirus scanning for uploads before go-live.
+- [ ] Add rate limiting and account lockout to authentication endpoints.
+- [ ] Restrict policy/report/document verification routes with role guards.
+- [ ] Configure structured logs, metrics, alerts, health checks, and error tracking.
+- [ ] Rotate the seeded admin password and disable public staff-role registration.
+- [ ] Run unit, integration, migration, and end-to-end tests in CI before deployment.
+- [ ] Use encrypted disks, least-privilege database credentials, and a non-root container user.
