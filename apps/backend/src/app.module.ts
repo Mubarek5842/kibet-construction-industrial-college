@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { ApplicantsModule } from './applicants/applicants.module';
 import { ApplicationsModule } from './applications/applications.module';
 import { DocumentsModule } from './documents/documents.module';
+import { AdmissionsModule } from './admissions/admissions.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { DocumentsModule } from './documents/documents.module';
     UsersModule,
     ApplicantsModule,
     ApplicationsModule,
-    DocumentsModule
+    DocumentsModule,
+    AdmissionsModule
   ],
   controllers: [HealthController],
   providers: []
